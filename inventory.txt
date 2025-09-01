@@ -1,0 +1,4 @@
+[appservers]
+server1 ansible_host=stapp02.stratos.xfusioncorp.com ansible_user=steve ansible_password=Am3ric@
+server2 ansible_host=stapp03.stratos.xfusioncorp.com ansible_user=banner ansible_password=BigGr33n
+server2 ansible_host=stlb01.stratos.xfusioncorp.com ansible_user=loki ansible_password=Mischi3f
