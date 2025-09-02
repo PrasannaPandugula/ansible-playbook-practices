@@ -1,0 +1,40 @@
+- name: Install Nginx on multiple server
+  hosts: webservers
+  become: yes
+  vars:
+    ngnix_package: nginx
+    mginx_package: nginx
+
+  tasks:
+    - name: Detect OS family
+      ansible.builtin.set_fact:
+        os_family: "{{ ansible_facts['os_faily'] }}"
+
+    - name: Set package name for Centos/RHEL
+      ansible.builtin.set_fact:
+        ngnix_package: nginx
+      when: os_family == "RedHat"
+
+    - name: Update package cache (Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: os_famil == "Debian"
+
+    - name: Install Nginx
+      ansible.builtin.package:
+        name: "{{ nginx_package }}"
+        state: present
+
+    - name: Ensuring Nginx service is running and enabled
+      ansible.builtin.service:
+        name: "{{ nginx_service }}"
+        state: started
+        enabled: yes
+      notify: Restart Nginx
+
+  handlers:
+    - nmae: Restart Nginx
+      ansible.builtin.service:
+        name: "{{ nginx_service }}"
+        state: restarted
